@@ -1,5 +1,7 @@
 #pragma once
-#include "glfw_window.hpp"
+#include <string>
+
+class GLFWWindow;
 
 class GLFWInstance
 {
