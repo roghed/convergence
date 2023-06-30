@@ -2,28 +2,40 @@
 #include <SFML/Window.hpp>
 
 ApplicationWindow::ApplicationWindow(int width, int height)
-    : sf::Window(sf::VideoMode(width, height), "Convergence visualizer")
+    :
+    sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
+    renderArea_(sf::Vector2f(width, height))
 {
+    loadShaders();
     rerender();
 
     do
     {
         sf::Event e;
-        if (!sf::Window::waitEvent(e))
+        if (!sf::RenderWindow::waitEvent(e))
         {
             throw std::runtime_error("Error while processing window events");
         }
 
         if (e.type == sf::Event::Closed)
         {
-            sf::Window::close();
+            sf::RenderWindow::close();
         }
 
-    } while (sf::Window::isOpen());
+    } while (sf::RenderWindow::isOpen());
+}
+
+void ApplicationWindow::loadShaders()
+{
+    if (!fillRedShader_.loadFromFile("shaders/fill_red.glsl", sf::Shader::Fragment))
+    {
+        throw std::runtime_error("Could not load shader");
+    }
 }
 
 void ApplicationWindow::rerender()
 {
-
+    sf::RenderWindow::draw(renderArea_, &fillRedShader_);
+    sf::RenderWindow::display();
 }
 

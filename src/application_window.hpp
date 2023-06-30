@@ -1,8 +1,9 @@
 #pragma once
-#include <SFML/Window.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Shader.hpp>
 
-class ApplicationWindow : protected sf::Window
+class ApplicationWindow : protected sf::RenderWindow
 {
 public:
 
@@ -12,8 +13,10 @@ public:
 
 private:
 
+    void loadShaders();
     void rerender();
 
     sf::RectangleShape renderArea_;
+    sf::Shader         fillRedShader_;
 };
 
