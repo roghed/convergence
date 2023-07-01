@@ -7,6 +7,7 @@ ApplicationWindow::ApplicationWindow(int width, int height)
     renderArea_(sf::Vector2f(width, height))
 {
     loadShaders();
+    iterateShader_.setUniform("screenSize", sf::Vector2f(width, height));
     rerender();
 
     do
@@ -27,7 +28,7 @@ ApplicationWindow::ApplicationWindow(int width, int height)
 
 void ApplicationWindow::loadShaders()
 {
-    if (!fillRedShader_.loadFromFile("shaders/fill_red.glsl", sf::Shader::Fragment))
+    if (!iterateShader_.loadFromFile("shaders/iterate_frag.glsl", sf::Shader::Fragment))
     {
         throw std::runtime_error("Could not load shader");
     }
@@ -35,7 +36,7 @@ void ApplicationWindow::loadShaders()
 
 void ApplicationWindow::rerender()
 {
-    sf::RenderWindow::draw(renderArea_, &fillRedShader_);
+    sf::RenderWindow::draw(renderArea_, &iterateShader_);
     sf::RenderWindow::display();
 }
 

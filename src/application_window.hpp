@@ -17,6 +17,6 @@ private:
     void rerender();
 
     sf::RectangleShape renderArea_;
-    sf::Shader         fillRedShader_;
+    sf::Shader         iterateShader_;
 };
 
