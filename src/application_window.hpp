@@ -14,9 +14,13 @@ public:
 private:
 
     void loadShaders();
+    void setShaderInputs();
     void rerender();
+    sf::Vector2f toCalcSpaceCoordinates(sf::Vector2u window_coord);
 
     sf::RectangleShape renderArea_;
     sf::Shader         iterateShader_;
+    sf::Vector2f       viewCenter_;
+    sf::Vector2f       viewSize_;
 };
 

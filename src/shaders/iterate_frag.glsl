@@ -1,5 +1,7 @@
 
 uniform vec2 screenSize;
+uniform vec2 viewCenter;
+uniform vec2 viewSize;
 
 float f(float x)
 {
@@ -29,9 +31,8 @@ vec3 applyColorMap(float normalized_value)
 
 void main()
 {
-    const float zoom_factor = 2.5;
-    vec2 position = ((gl_FragCoord.xy / screenSize - vec2(0.5, 0.5)) * 2.0) * zoom_factor;
-
+    vec2 normalized_frag_coord = gl_FragCoord.xy / screenSize;
+    vec2 position = viewCenter + (normalized_frag_coord - vec2(0.5, 0.5)) * viewSize;
     float result = iterate(position.x, position.y, 2048);
     float error_relative = abs(result - LIMIT) / LIMIT;
 
