@@ -1,6 +1,7 @@
 add_executable(main-window
     main.cpp
     application_window.hpp application_window.cpp
+    mouse_drag.hpp mouse_drag.cpp
     shaders/iterate_frag.glsl)
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
 add_custom_command(

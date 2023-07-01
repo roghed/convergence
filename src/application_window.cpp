@@ -26,15 +26,6 @@ ApplicationWindow::ApplicationWindow(int width, int height)
         case sf::Event::Closed:
             sf::RenderWindow::close();
             break;
-        case sf::Event::MouseMoved:
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-            {
-                // TODO
-                // pass mouse coordinates into MouseDrag
-                // get mouse delta from MouseDrag
-
-                // if mouse delta > 0, add delta to viewCenter_
-            }
         case sf::Event::MouseWheelScrolled:
             if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
             {
@@ -43,12 +34,12 @@ ApplicationWindow::ApplicationWindow(int width, int height)
 
                 if (e.mouseWheelScroll.delta != 0)
                 {
-                    sf::Vector2f cursor_pos = toCalcSpaceCoordinates(
-                        sf::Vector2u(e.mouseWheelScroll.x, e.mouseWheelScroll.y));
+                    auto cursor_window_pos = sf::Vector2i(e.mouseWheelScroll.x, e.mouseWheelScroll.y);
+                    sf::Vector2f cursor_calc_space_pos = toCalcSpaceCoordinates(cursor_window_pos);
 
                     viewCenter_ +=
                         (e.mouseWheelScroll.delta < 0 ? -1.f : 1.f)
-                        * (cursor_pos - viewCenter_) * MOVE_FACTOR;
+                        * (cursor_calc_space_pos - viewCenter_) * MOVE_FACTOR;
 
                     viewSize_ *= std::pow(ZOOM_FACTOR, e.mouseWheelScroll.delta);
 
@@ -56,8 +47,21 @@ ApplicationWindow::ApplicationWindow(int width, int height)
                     rerender();
                 }
             }
+            break;
         default:
             break;
+        }
+
+        if (auto drag_event = mouseDrag_.getDragEvent(e); drag_event.has_value())
+        {
+            auto window_space_delta = drag_event.value();
+            auto calc_space_origin = toCalcSpaceCoordinates(sf::Vector2i(0, 0));
+            auto calc_space_delta = toCalcSpaceCoordinates(window_space_delta) - calc_space_origin;
+
+            viewCenter_ -= calc_space_delta;
+
+            setShaderInputs();
+            rerender();
         }
     } while (sf::RenderWindow::isOpen());
 }
@@ -85,7 +89,7 @@ void ApplicationWindow::rerender()
     sf::RenderWindow::display();
 }
 
-sf::Vector2f ApplicationWindow::toCalcSpaceCoordinates(sf::Vector2u window_coord)
+sf::Vector2f ApplicationWindow::toCalcSpaceCoordinates(sf::Vector2i window_coord)
 {
     auto screen_size = sf::Vector2f(ApplicationWindow::getSize());
     auto normalized_pixel_coord =

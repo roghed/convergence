@@ -1,4 +1,5 @@
 #pragma once
+#include "mouse_drag.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Shader.hpp>
@@ -16,8 +17,9 @@ private:
     void loadShaders();
     void setShaderInputs();
     void rerender();
-    sf::Vector2f toCalcSpaceCoordinates(sf::Vector2u window_coord);
+    sf::Vector2f toCalcSpaceCoordinates(sf::Vector2i window_coord);
 
+    MouseDrag          mouseDrag_;
     sf::RectangleShape renderArea_;
     sf::Shader         iterateShader_;
     sf::Vector2f       viewCenter_;
