@@ -78,9 +78,12 @@ void ApplicationWindow::setShaderInputs()
 {
     sf::Vector2f screen_size = static_cast<sf::Vector2f>(sf::RenderWindow::getSize());
     renderArea_ = sf::RectangleShape(screen_size);
+    float grid_scale = std::pow(10.0, std::ceil(std::log10(viewSize_.x * 5)) - 2);
+
     iterateShader_.setUniform("screenSize", screen_size);
     iterateShader_.setUniform("viewCenter", viewCenter_);
     iterateShader_.setUniform("viewSize", viewSize_);
+    iterateShader_.setUniform("gridScale", grid_scale);
 }
 
 void ApplicationWindow::rerender()
