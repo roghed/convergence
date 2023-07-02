@@ -17,7 +17,7 @@ public:
 
 private:
 
-    bool         isLeftButtonPressed_;
+    bool         isLeftButtonPressed_ = false;
     sf::Vector2i lastCursorPosition_;
 };
 
