@@ -1,4 +1,6 @@
 
+const   vec3 AXIS_COLOR = vec3(1.0, 0.0, 0.0);
+
 uniform vec2 screenSize;
 uniform vec2 viewCenter;
 uniform vec2 viewSize;
@@ -33,8 +35,20 @@ void main()
 {
     vec2 normalized_frag_coord = gl_FragCoord.xy / screenSize;
     vec2 position = viewCenter + (normalized_frag_coord - vec2(0.5, 0.5)) * viewSize;
-    float result = iterate(position.x, position.y, 2048);
-    float error_relative = abs(result - LIMIT) / LIMIT;
 
-    gl_FragColor = vec4(applyColorMap(error_relative), 1.0);
+    vec2 pixel_size = viewSize / screenSize;
+
+    // axis rendering
+    if (abs(position.x) <= pixel_size.x / 2.0 || abs(position.y) <= pixel_size.y / 2.0)
+    {
+        gl_FragColor = vec4(AXIS_COLOR, 1.0);
+    }
+    // function rendering
+    else
+    {
+        float result = iterate(position.x, position.y, 2048);
+        float error_relative = abs(result - LIMIT) / LIMIT;
+
+        gl_FragColor = vec4(applyColorMap(error_relative), 1.0);
+    }
 }
