@@ -3,12 +3,13 @@
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <vector>
+#include <string>
 
 ApplicationWindow::ApplicationWindow(int width, int height)
     :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     viewCenter_(2.5, 0),
-    viewSize_(10.0, 5.0),
+    viewSize_(10.0, 10.0 * height / width),
     gridScale_(1.0)
 {
     loadShaders();
@@ -53,6 +54,17 @@ ApplicationWindow::ApplicationWindow(int width, int height)
                 }
             }
             break;
+        case sf::Event::Resized:
+            {
+            auto s = sf::Vector2f(e.size.width, e.size.height);
+            auto v = sf::View(s * 0.5f, s);
+            sf::RenderWindow::setView(v);
+            viewSize_.y = viewSize_.x * s.y / s.x;
+            recalculateGrid();
+            setShaderInputs();
+            rerender();
+            break;
+           }
         default:
             break;
         }
@@ -99,6 +111,8 @@ void ApplicationWindow::setShaderInputs()
 
 void ApplicationWindow::recalculateGrid()
 {
+    static const sf::Vector2i MARGIN = {5, 0}; // in pixels
+
     gridScale_ = std::pow(10.0, std::ceil(std::log10(viewSize_.x * 5)) - 2);
     sf::Vector2f view_bot_left = viewCenter_ - viewSize_ * 0.5f;
 
@@ -107,16 +121,18 @@ void ApplicationWindow::recalculateGrid()
     {
         auto& label = xAxisLabels_[i];
 
+        int coefficient = std::ceil(view_bot_left.x / gridScale_) + i - 1;
+
         label.setFont(labelsFont_);
-        label.setCharacterSize(16);
-        label.setString("xxx"); // TODO: set to numeric value of the label
+        label.setCharacterSize(13);
+        label.setString(getLabelString(coefficient, gridScale_));
         label.setFillColor(sf::Color::Blue);
         label.setOrigin(0, 2 * label.getLocalBounds().height);
 
         sf::Vector2f pos;
-        pos.x = gridScale_ * (std::ceil(view_bot_left.x / gridScale_) + i - 1);
+        pos.x = gridScale_ * coefficient;
         pos.y = view_bot_left.y;
-        sf::Vector2i window_space_pos = toWindowSpaceCoordinates(pos);
+        sf::Vector2i window_space_pos = toWindowSpaceCoordinates(pos) + MARGIN;
         label.setPosition((sf::Vector2f)(window_space_pos));
     }
 
@@ -125,16 +141,18 @@ void ApplicationWindow::recalculateGrid()
     {
         auto& label = yAxisLabels_[i];
 
+        int coefficient = std::ceil(view_bot_left.y / gridScale_) + i - 1;
+
         label.setFont(labelsFont_);
-        label.setCharacterSize(16);
-        label.setString("yyy"); // TODO: set to numeric value of the label
+        label.setCharacterSize(13);
+        label.setString(getLabelString(coefficient, gridScale_));
         label.setFillColor(sf::Color::Blue);
         label.setOrigin(0, 2 * label.getLocalBounds().height);
 
         sf::Vector2f pos;
         pos.x = view_bot_left.x;
-        pos.y = gridScale_ * (std::ceil(view_bot_left.y / gridScale_) + i - 1);
-        sf::Vector2i window_space_pos = toWindowSpaceCoordinates(pos);
+        pos.y = gridScale_ * coefficient;
+        sf::Vector2i window_space_pos = toWindowSpaceCoordinates(pos) + MARGIN;
         label.setPosition((sf::Vector2f)(window_space_pos));
     }
 }
@@ -184,4 +202,33 @@ sf::Vector2i ApplicationWindow::toWindowSpaceCoordinates(sf::Vector2f calc_space
     };
 
     return {(int)result.x, (int)(screen_size.y - result.y)};
+}
+
+std::string ApplicationWindow::getLabelString(int coefficient, float grid_scale)
+{
+    if (coefficient == 0)
+    {
+        return "0";
+    }
+    else if (grid_scale == 1)
+    {
+        return std::to_string(coefficient);
+    }
+    else
+    {
+        int exponent = std::log10(grid_scale);
+
+        if (std::abs(exponent) > 3)
+        {
+            return std::to_string(coefficient) + "e" + std::to_string(exponent);
+        }
+        else if (exponent < 0)
+        {
+            return (coefficient < 0 ? "-0." : "0.") + std::string(-exponent - 1, '0') + std::to_string(std::abs(coefficient));
+        }
+        else
+        {
+            return std::to_string(coefficient) + std::string(exponent, '0');
+        }
+    }
 }

@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <vector>
+#include <string>
 
 class ApplicationWindow : protected sf::RenderWindow
 {
@@ -23,6 +24,8 @@ private:
     void rerender();
     sf::Vector2f toCalcSpaceCoordinates(sf::Vector2i window_coord) const;
     sf::Vector2i toWindowSpaceCoordinates(sf::Vector2f calc_space_coord) const;
+
+    static std::string getLabelString(int coefficient, float grid_scale);
 
     MouseDrag             mouseDrag_;
     sf::RectangleShape    renderArea_;
