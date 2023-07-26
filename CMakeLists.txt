@@ -7,5 +7,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(src)
 
-install(TARGETS main-window
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS convergence LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
