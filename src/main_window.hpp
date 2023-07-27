@@ -4,20 +4,22 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <string>
 
-class ApplicationWindow : protected sf::RenderWindow
+class MainWindow : protected sf::RenderWindow
 {
 public:
 
-    // creates window and enters event processing loop, blocks until window is
-    // closed
-    ApplicationWindow(int width, int height);
+    MainWindow(int width, int height, sf::Shader& iterate_shader);
+
+    void processEvents();
+    using sf::RenderWindow::isOpen;
 
 private:
 
-    void loadShaders();
     void loadLabelsFont();
     void recalculateGrid();
     void setShaderInputs();
@@ -29,7 +31,7 @@ private:
 
     MouseDrag             mouseDrag_;
     sf::RectangleShape    renderArea_;
-    sf::Shader            iterateShader_;
+    sf::Shader*           ptrIterateShader_;
     sf::Vector2f          viewCenter_;
     sf::Vector2f          viewSize_;
     float                 gridScale_;

@@ -1,31 +1,30 @@
-#include "application_window.hpp"
+#include "main_window.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window.hpp>
 #include <cmath>
 #include <vector>
 #include <string>
 
-ApplicationWindow::ApplicationWindow(int width, int height)
+MainWindow::MainWindow(int width, int height, sf::Shader& iterate_shader)
     :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     viewCenter_(2.5, 0),
     viewSize_(10.0, 10.0 * height / width),
-    gridScale_(1.0)
+    gridScale_(1.0),
+    ptrIterateShader_(&iterate_shader)
 {
-    loadShaders();
     loadLabelsFont();
     recalculateGrid();
     setShaderInputs();
     rerender();
+}
 
-    do
+void MainWindow::processEvents()
+{
+    sf::Event e;
+
+    while (sf::RenderWindow::pollEvent(e))
     {
-        sf::Event e;
-        if (!sf::RenderWindow::waitEvent(e))
-        {
-            throw std::runtime_error("Error while processing window events");
-        }
-
         switch (e.type)
         {
         case sf::Event::Closed:
@@ -81,35 +80,27 @@ ApplicationWindow::ApplicationWindow(int width, int height)
             setShaderInputs();
             rerender();
         }
-    } while (sf::RenderWindow::isOpen());
-}
-
-void ApplicationWindow::loadShaders()
-{
-    if (!iterateShader_.loadFromFile("shaders/iterate_frag.glsl", sf::Shader::Fragment))
-    {
-        throw std::runtime_error("Could not load shader");
     }
 }
 
-void ApplicationWindow::loadLabelsFont()
+void MainWindow::loadLabelsFont()
 {
     // TODO: make font loading portable on every system
     labelsFont_.loadFromFile("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf");
 }
 
-void ApplicationWindow::setShaderInputs()
+void MainWindow::setShaderInputs()
 {
     sf::Vector2f screen_size = static_cast<sf::Vector2f>(sf::RenderWindow::getSize());
     renderArea_ = sf::RectangleShape(screen_size);
 
-    iterateShader_.setUniform("screenSize", screen_size);
-    iterateShader_.setUniform("viewCenter", viewCenter_);
-    iterateShader_.setUniform("viewSize", viewSize_);
-    iterateShader_.setUniform("gridScale", gridScale_);
+    ptrIterateShader_->setUniform("screenSize", screen_size);
+    ptrIterateShader_->setUniform("viewCenter", viewCenter_);
+    ptrIterateShader_->setUniform("viewSize", viewSize_);
+    ptrIterateShader_->setUniform("gridScale", gridScale_);
 }
 
-void ApplicationWindow::recalculateGrid()
+void MainWindow::recalculateGrid()
 {
     static const sf::Vector2i MARGIN = {5, 0}; // in pixels
 
@@ -157,9 +148,9 @@ void ApplicationWindow::recalculateGrid()
     }
 }
 
-void ApplicationWindow::rerender()
+void MainWindow::rerender()
 {
-    sf::RenderWindow::draw(renderArea_, &iterateShader_);
+    sf::RenderWindow::draw(renderArea_, ptrIterateShader_);
 
     for (const auto& label : xAxisLabels_)
     {
@@ -174,9 +165,9 @@ void ApplicationWindow::rerender()
     sf::RenderWindow::display();
 }
 
-sf::Vector2f ApplicationWindow::toCalcSpaceCoordinates(sf::Vector2i window_coord) const
+sf::Vector2f MainWindow::toCalcSpaceCoordinates(sf::Vector2i window_coord) const
 {
-    auto screen_size = sf::Vector2f(ApplicationWindow::getSize());
+    auto screen_size = sf::Vector2f(MainWindow::getSize());
     auto normalized_pixel_coord =
         sf::Vector2f(window_coord.x / screen_size.x, 1.0 - window_coord.y / screen_size.y);
     auto x = viewCenter_.x + (normalized_pixel_coord.x - 0.5) * viewSize_.x;
@@ -184,9 +175,9 @@ sf::Vector2f ApplicationWindow::toCalcSpaceCoordinates(sf::Vector2i window_coord
     return sf::Vector2f(x, y);
 }
 
-sf::Vector2i ApplicationWindow::toWindowSpaceCoordinates(sf::Vector2f calc_space_coord) const
+sf::Vector2i MainWindow::toWindowSpaceCoordinates(sf::Vector2f calc_space_coord) const
 {
-    auto screen_size = sf::Vector2f(ApplicationWindow::getSize());
+    auto screen_size = sf::Vector2f(MainWindow::getSize());
     auto bot_left_corner = viewCenter_ - 0.5f * viewSize_;
 
     sf::Vector2f result =
@@ -204,7 +195,7 @@ sf::Vector2i ApplicationWindow::toWindowSpaceCoordinates(sf::Vector2f calc_space
     return {(int)result.x, (int)(screen_size.y - result.y)};
 }
 
-std::string ApplicationWindow::getLabelString(int coefficient, float grid_scale)
+std::string MainWindow::getLabelString(int coefficient, float grid_scale)
 {
     if (coefficient == 0)
     {

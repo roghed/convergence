@@ -1,6 +1,7 @@
-#include "application_window.hpp"
+#include "application.hpp"
 
 int main()
 {
-    ApplicationWindow(800, 600);
+    Application app;
+    app.execute();
 }

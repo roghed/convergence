@@ -1,6 +1,8 @@
 add_executable(convergence
     main.cpp
-    application_window.hpp application_window.cpp
+    application.hpp application.cpp
+    main_window.hpp main_window.cpp
+    input_window.hpp input_window.cpp
     mouse_drag.hpp mouse_drag.cpp
     shaders/iterate_frag.glsl)
 message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
