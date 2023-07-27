@@ -1,6 +1,8 @@
 #include "application.hpp"
 #include "main_window.hpp"
 #include "input_window.hpp"
+#include <exprtk/exprtk.hpp>
+#include <cmath>
 #include <string>
 #include <filesystem>
 #include <fstream>
@@ -10,11 +12,12 @@
 #include <iostream>
 
 Application::Application()
-    : mainWin_(800, 600, iterateShader_), inputWin_(300, 100, "exp(x) - 1.0 / x")
+    :
+    rawShaderCode_(getFileContents("shaders/iterate_frag.glsl")),
+    mainWin_(800, 600, iterateShader_),
+    inputWin_(300, 100, "exp(x) - 1.0 / x")
 {
-    rawShaderCode_ = getFileContents("shaders/iterate_frag.glsl");
-    recompileShader();
-    mainWin_.refresh();
+    updateShaderFunction();
 }
 
 void Application::execute()
@@ -30,8 +33,7 @@ void Application::execute()
 
         if (inputWin_.textChanged())
         {
-            recompileShader();
-            mainWin_.refresh();
+            updateShaderFunction();
         }
 
         constexpr auto POLL_RATE = milliseconds(4);
@@ -66,14 +68,58 @@ std::string Application::getFileContents(const std::filesystem::path& file_path)
     return contents;
 }
 
-void Application::recompileShader()
+float Application::calculateFunctionLimit(const std::string& expr_string)
+{
+    float x;
+
+    exprtk::symbol_table<float> symbol_table;
+    symbol_table.add_variable("x", x);
+    symbol_table.add_constants();
+
+    exprtk::expression<float> expression;
+    expression.register_symbol_table(symbol_table);
+
+    exprtk::parser<float> parser;
+    parser.compile(expr_string, expression);
+
+    // Newton–Raphson method with numerical derivative approximation, i.e:
+    // df(x)/dx ~= (f(x + h) - f(x)) / h
+    constexpr auto N_ITERATIONS = 10;
+    constexpr auto H = 1e-6;
+    static const auto X0 = std::sqrt(2) + M_PI;
+    float xi = X0;
+
+    for (int i = 0; i < N_ITERATIONS; ++i)
+    {
+        x = xi;
+        auto f_xi = expression.value();
+
+        x = xi + H;
+        auto f_xi_h = expression.value();
+
+        xi -= H * f_xi / (f_xi_h - f_xi);
+    }
+
+    return xi;
+}
+
+void Application::updateShaderFunction()
+{
+    auto f_expression = inputWin_.text();
+    recompileShader(f_expression);
+    auto f_limit = calculateFunctionLimit(f_expression);
+    mainWin_.setFunctionLimit(f_limit);
+    mainWin_.refresh();
+}
+
+void Application::recompileShader(const std::string& f_expression)
 {
     static const std::string REPLACE_MARKER = "@\\[REPLACE ME\\]@";
     static const std::regex  REPLACE_REGEX(REPLACE_MARKER);
 
     // TODO: validate inputWin_.text()
 
-    auto altered_shader_code = std::regex_replace(rawShaderCode_, REPLACE_REGEX, inputWin_.text());
+    auto altered_shader_code = std::regex_replace(rawShaderCode_, REPLACE_REGEX, f_expression);
     if (!iterateShader_.loadFromMemory(altered_shader_code, sf::Shader::Fragment))
     {
         std::clog << "Shader compilation failed" << std::endl;

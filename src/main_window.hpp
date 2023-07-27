@@ -18,6 +18,7 @@ public:
     void processEvents();
     using sf::RenderWindow::isOpen;
     void refresh();
+    void setFunctionLimit(float value);
 
 private:
 
@@ -36,6 +37,7 @@ private:
     sf::Vector2f          viewCenter_;
     sf::Vector2f          viewSize_;
     float                 gridScale_;
+    float                 functionLimit_;
     sf::Font              labelsFont_;
     std::vector<sf::Text> xAxisLabels_;
     std::vector<sf::Text> yAxisLabels_;

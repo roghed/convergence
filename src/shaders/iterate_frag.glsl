@@ -6,13 +6,12 @@ uniform vec2  screenSize;
 uniform vec2  viewCenter;
 uniform vec2  viewSize;
 uniform float gridScale;
+uniform float functionLimit;
 
 float f(float x)
 {
     return @[REPLACE ME]@;
 }
-
-const float LIMIT = 0.5671432904097838729999686622;
 
 float iterate(float x, float y, int n)
 {
@@ -57,7 +56,7 @@ void main()
     else
     {
         float result = iterate(position.x, position.y, 2048);
-        float error_relative = abs(result - LIMIT) / LIMIT;
+        float error_relative = abs(result - functionLimit) / functionLimit;
 
         gl_FragColor = vec4(applyColorMap(error_relative), 1.0);
     }

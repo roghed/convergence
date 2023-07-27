@@ -82,6 +82,12 @@ void MainWindow::refresh()
     rerender();
 }
 
+void MainWindow::setFunctionLimit(float value)
+{
+    functionLimit_ = value;
+    ptrIterateShader_->setUniform("functionLimit", functionLimit_);
+}
+
 void MainWindow::loadLabelsFont()
 {
     // TODO: make font loading portable on every system
@@ -97,6 +103,7 @@ void MainWindow::setShaderInputs()
     ptrIterateShader_->setUniform("viewCenter", viewCenter_);
     ptrIterateShader_->setUniform("viewSize", viewSize_);
     ptrIterateShader_->setUniform("gridScale", gridScale_);
+    ptrIterateShader_->setUniform("functionLimit", functionLimit_);
 }
 
 void MainWindow::recalculateGrid()
