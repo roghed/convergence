@@ -5,6 +5,8 @@
 #include <filesystem>
 #include <fstream>
 #include <regex>
+#include <thread>
+#include <chrono>
 #include <iostream>
 
 Application::Application()
@@ -17,8 +19,12 @@ Application::Application()
 
 void Application::execute()
 {
+    using namespace std::chrono;
+
     while (mainWin_.isOpen() && inputWin_.isOpen())
     {
+        auto frame_beg = high_resolution_clock::now();
+
         mainWin_.processEvents();
         inputWin_.processEvents();
 
@@ -27,6 +33,9 @@ void Application::execute()
             recompileShader();
             mainWin_.refresh();
         }
+
+        constexpr auto POLL_RATE = milliseconds(4);
+        std::this_thread::sleep_until(frame_beg + POLL_RATE);
     }
 }
 
