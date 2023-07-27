@@ -17,6 +17,7 @@ public:
 
     void processEvents();
     using sf::RenderWindow::isOpen;
+    void refresh();
 
 private:
 

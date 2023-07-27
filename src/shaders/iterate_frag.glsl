@@ -9,7 +9,7 @@ uniform float gridScale;
 
 float f(float x)
 {
-    return exp(x) - 1.0 / x;
+    return @[REPLACE ME]@;
 }
 
 const float LIMIT = 0.5671432904097838729999686622;

@@ -5,12 +5,14 @@
 #include <filesystem>
 #include <fstream>
 #include <regex>
+#include <iostream>
 
 Application::Application()
     : mainWin_(800, 600, iterateShader_), inputWin_(300, 100, "exp(x) - 1.0 / x")
 {
     rawShaderCode_ = getFileContents("shaders/iterate_frag.glsl");
     recompileShader();
+    mainWin_.refresh();
 }
 
 void Application::execute()
@@ -23,6 +25,7 @@ void Application::execute()
         if (inputWin_.textChanged())
         {
             recompileShader();
+            mainWin_.refresh();
         }
     }
 }
@@ -56,7 +59,7 @@ std::string Application::getFileContents(const std::filesystem::path& file_path)
 
 void Application::recompileShader()
 {
-    static const std::string REPLACE_MARKER = "@[REPLACE ME]@";
+    static const std::string REPLACE_MARKER = "@\\[REPLACE ME\\]@";
     static const std::regex  REPLACE_REGEX(REPLACE_MARKER);
 
     // TODO: validate inputWin_.text()
@@ -64,6 +67,6 @@ void Application::recompileShader()
     auto altered_shader_code = std::regex_replace(rawShaderCode_, REPLACE_REGEX, inputWin_.text());
     if (!iterateShader_.loadFromMemory(altered_shader_code, sf::Shader::Fragment))
     {
-        throw std::runtime_error("Shader compilation failed");
+        std::clog << "Shader compilation failed" << std::endl;
     }
 }

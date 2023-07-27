@@ -14,9 +14,7 @@ MainWindow::MainWindow(int width, int height, sf::Shader& iterate_shader)
     ptrIterateShader_(&iterate_shader)
 {
     loadLabelsFont();
-    recalculateGrid();
-    setShaderInputs();
-    rerender();
+    refresh();
 }
 
 void MainWindow::processEvents()
@@ -47,9 +45,7 @@ void MainWindow::processEvents()
 
                     viewSize_ *= std::pow(ZOOM_FACTOR, e.mouseWheelScroll.delta);
 
-                    recalculateGrid();
-                    setShaderInputs();
-                    rerender();
+                    refresh();
                 }
             }
             break;
@@ -59,9 +55,7 @@ void MainWindow::processEvents()
             auto v = sf::View(s * 0.5f, s);
             sf::RenderWindow::setView(v);
             viewSize_.y = viewSize_.x * s.y / s.x;
-            recalculateGrid();
-            setShaderInputs();
-            rerender();
+            refresh();
             break;
            }
         default:
@@ -76,11 +70,16 @@ void MainWindow::processEvents()
 
             viewCenter_ -= calc_space_delta;
 
-            recalculateGrid();
-            setShaderInputs();
-            rerender();
+            refresh();
         }
     }
+}
+
+void MainWindow::refresh()
+{
+    recalculateGrid();
+    setShaderInputs();
+    rerender();
 }
 
 void MainWindow::loadLabelsFont()
