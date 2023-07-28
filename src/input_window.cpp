@@ -8,7 +8,7 @@
 InputWindow::InputWindow(int width, int height, std::string init_text) :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     textString_(init_text),
-    cursor_(sf::Vector2f(3, 15))
+    cursor_(sf::Vector2f(1, 15))
 {
     displayFont_.loadFromFile("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf");
     displayText_.setFont(displayFont_);
