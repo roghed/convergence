@@ -2,6 +2,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <string>
 
 class InputWindow : public sf::RenderWindow
@@ -20,10 +21,13 @@ private:
 
     void processInputCharacter(char);
     void updateDisplayText();
+    void updateDisplayCursor();
     void rerender();
 
-    bool textChanged_ = false;
-    std::string textString_;
-    sf::Font    displayFont_;
-    sf::Text    displayText_;
+    int                cursorPosition_ = 0;
+    bool               textChanged_ = false;
+    std::string        textString_;
+    sf::Font           displayFont_;
+    sf::Text           displayText_;
+    sf::RectangleShape cursor_;
 };
