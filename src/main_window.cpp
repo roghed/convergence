@@ -57,7 +57,11 @@ void MainWindow::processEvents()
             viewSize_.y = viewSize_.x * s.y / s.x;
             refresh();
             break;
-           }
+            }
+        case sf::Event::GainedFocus:
+        case sf::Event::MouseEntered:
+            rerender();
+            break;
         default:
             break;
         }

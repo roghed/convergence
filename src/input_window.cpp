@@ -52,6 +52,10 @@ void InputWindow::processEvents()
             auto v = sf::View(s * 0.5f, s);
             sf::RenderWindow::setView(v);
         }
+        case sf::Event::GainedFocus:
+        case sf::Event::MouseEntered:
+            rerender();
+            break;
         default:
             break;
         }
