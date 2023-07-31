@@ -14,7 +14,17 @@ MainWindow::MainWindow(int width, int height, sf::Shader& iterate_shader)
     ptrIterateShader_(&iterate_shader)
 {
     loadLabelsFont();
+    startRenderWorker();
     refresh();
+}
+
+MainWindow::~MainWindow()
+{
+    try
+    {
+        killRenderWorker();
+    } catch (...)
+    {}
 }
 
 void MainWindow::processEvents()
@@ -26,6 +36,7 @@ void MainWindow::processEvents()
         switch (e.type)
         {
         case sf::Event::Closed:
+            killRenderWorker();
             sf::RenderWindow::close();
             break;
         case sf::Event::MouseWheelScrolled:
@@ -51,16 +62,21 @@ void MainWindow::processEvents()
             break;
         case sf::Event::Resized:
             {
-            auto s = sf::Vector2f(e.size.width, e.size.height);
-            auto v = sf::View(s * 0.5f, s);
-            sf::RenderWindow::setView(v);
-            viewSize_.y = viewSize_.x * s.y / s.x;
-            refresh();
-            break;
+                auto s = sf::Vector2f(e.size.width, e.size.height);
+                auto v = sf::View(s * 0.5f, s);
+
+                {
+                    std::lock_guard lck(renderResourcesMtx_);
+                    sf::RenderWindow::setView(v);
+                }
+
+                viewSize_.y = viewSize_.x * s.y / s.x;
+                refresh();
+                break;
             }
         case sf::Event::GainedFocus:
         case sf::Event::MouseEntered:
-            rerender();
+            requestRerender();
             break;
         default:
             break;
@@ -83,7 +99,7 @@ void MainWindow::refresh()
 {
     recalculateGrid();
     setShaderInputs();
-    rerender();
+    requestRerender();
 }
 
 void MainWindow::setFunctionLimit(float value)
@@ -100,6 +116,8 @@ void MainWindow::loadLabelsFont()
 
 void MainWindow::setShaderInputs()
 {
+    std::lock_guard lck(renderResourcesMtx_);
+
     sf::Vector2f screen_size = static_cast<sf::Vector2f>(sf::RenderWindow::getSize());
     renderArea_ = sf::RectangleShape(screen_size);
 
@@ -112,6 +130,8 @@ void MainWindow::setShaderInputs()
 
 void MainWindow::recalculateGrid()
 {
+    std::lock_guard lck(renderResourcesMtx_);
+
     static const sf::Vector2i MARGIN = {5, 0}; // in pixels
 
     gridScale_ = std::pow(10.0, std::ceil(std::log10(viewSize_.x * 5)) - 2);
@@ -158,8 +178,54 @@ void MainWindow::recalculateGrid()
     }
 }
 
+void MainWindow::requestRerender()
+{
+    std::lock_guard<std::mutex> lck(rerenderCvMtx_);
+    doRerender_ = true;
+    rerenderCv_.notify_one();
+}
+
+void MainWindow::startRenderWorker()
+{
+    if (renderWorkerFut_.valid())
+    {
+        throw std::runtime_error("Render thread already running");
+    }
+
+    renderWorkerFut_ = std::async(
+        std::launch::async, &MainWindow::renderBackgroundWorker, this);
+}
+
+void MainWindow::killRenderWorker()
+{
+    if (!renderWorkerFut_.valid())
+    {
+        throw std::runtime_error("Render thread is not running");
+    }
+
+    killRenderWorkerFlag_ = true;
+    rerenderCv_.notify_one();
+    renderWorkerFut_.get();
+}
+
+void MainWindow::renderBackgroundWorker()
+{
+    while (!killRenderWorkerFlag_)
+    {
+        rerender();
+
+        {
+            std::unique_lock<std::mutex> lck(rerenderCvMtx_);
+            rerenderCv_.wait(lck, [this]{return doRerender_ || killRenderWorkerFlag_;});
+            doRerender_ = false;
+        }
+    }
+}
+
 void MainWindow::rerender()
 {
+    std::lock_guard lck(renderResourcesMtx_);
+
     sf::RenderWindow::draw(renderArea_, ptrIterateShader_);
 
     for (const auto& label : xAxisLabels_)
