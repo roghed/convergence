@@ -1,19 +1,20 @@
 #include "main_window.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <cmath>
 #include <vector>
 #include <string>
 
-MainWindow::MainWindow(int width, int height, sf::Shader& iterate_shader)
+MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     viewCenter_(2.5, 0),
     viewSize_(10.0, 10.0 * height / width),
     gridScale_(1.0),
-    ptrIterateShader_(&iterate_shader)
+    ptrIterateShader_(&iterate_shader),
+    labelsFont_(font)
 {
-    loadLabelsFont();
     startRenderWorker();
     refresh();
 }
@@ -106,12 +107,6 @@ void MainWindow::setFunctionLimit(float value)
 {
     functionLimit_ = value;
     ptrIterateShader_->setUniform("functionLimit", functionLimit_);
-}
-
-void MainWindow::loadLabelsFont()
-{
-    // TODO: make font loading portable on every system
-    labelsFont_.loadFromFile("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf");
 }
 
 void MainWindow::setShaderInputs()

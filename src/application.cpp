@@ -14,9 +14,14 @@
 Application::Application()
     :
     rawShaderCode_(getFileContents("shaders/iterate_frag.glsl")),
-    mainWin_(800, 600, iterateShader_),
-    inputWin_(300, 100, "exp(x) - 1.0 / x")
+    mainWin_(800, 600, font_, iterateShader_),
+    inputWin_(300, 100, font_, "exp(x) - 1.0 / x")
 {
+    if (!font_.loadFromFile("resources/UbuntuMono-Regular.ttf"))
+    {
+        throw std::runtime_error("Font loading failed");
+    }
+
     updateShaderFunction();
 }
 

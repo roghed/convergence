@@ -16,7 +16,7 @@ class MainWindow : protected sf::RenderWindow
 {
 public:
 
-    MainWindow(int width, int height, sf::Shader& iterate_shader);
+    MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader);
     ~MainWindow();
 
     void processEvents();
@@ -26,7 +26,6 @@ public:
 
 private:
 
-    void loadLabelsFont();
     void recalculateGrid();
     void setShaderInputs();
 
@@ -49,7 +48,7 @@ private:
     sf::Vector2f            viewSize_;
     float                   gridScale_;
     float                   functionLimit_;
-    sf::Font                labelsFont_;
+    const sf::Font&         labelsFont_;
     std::vector<sf::Text>   xAxisLabels_;
     std::vector<sf::Text>   yAxisLabels_;
     bool                    doRerender_ = false;

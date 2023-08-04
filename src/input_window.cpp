@@ -5,12 +5,12 @@
 #include <cctype>
 #include <utility>
 
-InputWindow::InputWindow(int width, int height, std::string init_text) :
+InputWindow::InputWindow(int width, int height, const sf::Font& font, std::string init_text) :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     textString_(init_text),
-    cursor_(sf::Vector2f(1, 15))
+    cursor_(sf::Vector2f(1, 15)),
+    displayFont_(font)
 {
-    displayFont_.loadFromFile("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf");
     displayText_.setFont(displayFont_);
     displayText_.setCharacterSize(15);
     displayText_.setString(textString_);

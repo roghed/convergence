@@ -9,7 +9,7 @@ class InputWindow : public sf::RenderWindow
 {
 public:
 
-    InputWindow(int width, int height, std::string init_text = "");
+    InputWindow(int width, int height, const sf::Font& font, std::string init_text = "");
 
     void processEvents();
     using sf::RenderWindow::isOpen;
@@ -27,7 +27,7 @@ private:
     int                cursorPosition_ = 0;
     bool               textChanged_ = false;
     std::string        textString_;
-    sf::Font           displayFont_;
+    const sf::Font&    displayFont_;
     sf::Text           displayText_;
     sf::RectangleShape cursor_;
 };

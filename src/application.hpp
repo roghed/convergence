@@ -22,6 +22,7 @@ private:
 
     std::string rawShaderCode_;
     sf::Shader  iterateShader_;
+    sf::Font    font_;
     MainWindow  mainWin_;
     InputWindow inputWin_;
 };
