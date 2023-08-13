@@ -1,6 +1,27 @@
 # Description
 
-C++ program which visualizes the convergence of mathematical functions. All calculations are done on the GPU using an OpenGL shader.
+A simple C++ program which utilizes an OpenGL shader to visualize the convergence of the fixed-point iteration numerical method.
+
+## Fixed-point iteration root-finding method
+
+Given any function $f(x)$ one can prove that the recursive formula:
+$$x_{n+1}=x_n + \alpha f(x_n)$$
+will converge for some values of the parameter $\alpha$ and initial values of $x_0$ on the roots of function $f(x)$.
+
+This program tries to visualize, which pairs of the above parameters: $\alpha$ and $x_0$ give rise to the convergence on the solution.
+
+## Main window
+
+In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Black areas represent values of the parameters for which the method *does not* converge, while white areas represent points for which the method *does* converge. Points which are close to the solution are rendered grey, and the brightness represents how close the value is to the actual root.
+
+### Controls
+
+- zoom in/out with mouse wheel
+- click and drag to move the view
+
+## Function input window
+
+The secondary window is meant to input the function $f(x)$. Any function that can be compiled by the OpenGL compiler is a valid function, and one can use any function that is valid in GLSL. The input from this window is inserted directly into the shader code.
 
 # Third party licenses
 
