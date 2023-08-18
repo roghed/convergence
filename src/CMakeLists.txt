@@ -14,24 +14,31 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.]]
 
+file(GLOB data_files
+    RELATIVE ${CMAKE_SOURCE_DIR}/data
+    ${CMAKE_SOURCE_DIR}/data/*)
+list(TRANSFORM data_files
+    PREPEND ${CMAKE_SOURCE_DIR}/data/
+    OUTPUT_VARIABLE src_dir_data_files)
+list(TRANSFORM data_files
+    PREPEND ${CMAKE_BINARY_DIR}/data/
+    OUTPUT_VARIABLE bin_dir_data_files)
+
+add_custom_command(
+    OUTPUT  ${bin_dir_data_files}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data
+    DEPENDS ${src_dir_data_files})
+
 add_executable(convergence
     main.cpp
     application.hpp application.cpp
     main_window.hpp main_window.cpp
     input_window.hpp input_window.cpp
     mouse_drag.hpp mouse_drag.cpp
-    shaders/iterate_frag.glsl
-    ${CMAKE_SOURCE_DIR}/resources/UbuntuMono-Regular.ttf)
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders/iterate_frag.glsl
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/shaders/iterate_frag.glsl 
-            ${CMAKE_CURRENT_BINARY_DIR}/shaders/iterate_frag.glsl
-    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/shaders/iterate_frag.glsl)
-add_custom_command(
-	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resources/UbuntuMono-Regular.ttf
-	COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/resources/UbuntuMono-Regular.ttf 
-                ${CMAKE_CURRENT_BINARY_DIR}/resources/UbuntuMono-Regular.ttf
-	MAIN_DEPENDENCY ${CMAKE_SOURCE_DIR}/resources/UbuntuMono-Regular.ttf)
-message(${CMAKE_SOURCE_DIR}/resources/UbuntuMono-Regular.ttf)
+    ${bin_dir_data_files})
+
+set_target_properties(convergence
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 find_package(SFML REQUIRED COMPONENTS graphics window system)
 target_link_libraries(convergence PRIVATE sfml-system sfml-window sfml-graphics)

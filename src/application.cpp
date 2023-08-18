@@ -29,11 +29,11 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 Application::Application()
     :
-    rawShaderCode_(getFileContents("shaders/iterate_frag.glsl")),
+    rawShaderCode_(getFileContents("data/iterate_frag.glsl")),
     mainWin_(800, 600, font_, iterateShader_),
     inputWin_(300, 100, font_, "exp(x) - 1.0 / x")
 {
-    if (!font_.loadFromFile("resources/UbuntuMono-Regular.ttf"))
+    if (!font_.loadFromFile("data/UbuntuMono-Regular.ttf"))
     {
         throw std::runtime_error("Font loading failed");
     }
