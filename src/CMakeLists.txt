@@ -41,6 +41,12 @@ add_executable(convergence
 set_target_properties(convergence
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
+if (MSVC)
+  target_compile_options(convergence PRIVATE /bigobj)
+else ()
+  target_compile_options(convergence PRIVATE -Wa,-mbig-obj)
+endif ()
+
 find_package(SFML REQUIRED COMPONENTS graphics window system)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 target_link_libraries(convergence

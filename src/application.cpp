@@ -34,7 +34,7 @@ Application::Application()
     mainWin_(800, 600, font_, iterateShader_),
     inputWin_(300, 100, font_, "exp(x) - 1.0 / x")
 {
-    if (!font_.loadFromFile(resLoc_.locate("UbuntuMono-Regular.ttf")))
+    if (!font_.loadFromFile(resLoc_.locate("UbuntuMono-Regular.ttf").string()))
     {
         throw std::runtime_error("Font loading failed");
     }

@@ -96,7 +96,7 @@ bool ResourceLocator::search(const path& p)
 {
     if (exists(p))
     {
-        cache_[p.filename()] = absolute(p);
+        cache_[p.filename().string()] = absolute(p);
         return true;
     }
 
