@@ -21,6 +21,8 @@ project(convergence LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include_directories(third_party/include)
+
 add_subdirectory(src)
 
 include(GNUInstallDirs)

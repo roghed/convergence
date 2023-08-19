@@ -17,7 +17,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include "application.hpp"
 #include "main_window.hpp"
 #include "input_window.hpp"
-#include <exprtk/exprtk.hpp>
+#include <exprtk.hpp>
 #include <cmath>
 #include <string>
 #include <filesystem>
