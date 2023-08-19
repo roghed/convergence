@@ -15,33 +15,24 @@ You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #pragma once
-#include "main_window.hpp"
-#include "input_window.hpp"
-#include "resource_locator.hpp"
-#include <SFML/Graphics/Shader.hpp>
-#include <string>
 #include <filesystem>
+#include <string>
+#include <unordered_map>
 
-class Application
+class ResourceLocator
 {
 public:
+    ResourceLocator(
+        const std::string& application_directory_name = "",
+        const std::string& resource_directory_name = "");
 
-    Application();
-    void execute();
+    const std::filesystem::path& locate(const std::string& resource_file_name);
 
 private:
 
-    static std::string getFileContents(const std::filesystem::path&);
-    static float calculateFunctionLimit(const std::string& f_expression);
+    bool search(const std::filesystem::path& path_to_file);
 
-    void updateShaderFunction();
-    void recompileShader(const std::string& f_expression);
-
-    ResourceLocator resLoc_;
-    std::string     rawShaderCode_;
-    sf::Shader      iterateShader_;
-    sf::Font        font_;
-    MainWindow      mainWin_;
-    InputWindow     inputWin_;
+    const std::string appDirectory_;
+    const std::string resDirectory_;
+    std::unordered_map<std::string, std::filesystem::path> cache_;
 };
-

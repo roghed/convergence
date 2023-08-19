@@ -35,10 +35,13 @@ add_executable(convergence
     main_window.hpp main_window.cpp
     input_window.hpp input_window.cpp
     mouse_drag.hpp mouse_drag.cpp
+    resource_locator.hpp resource_locator.cpp
     ${bin_dir_data_files})
 
 set_target_properties(convergence
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 find_package(SFML REQUIRED COMPONENTS graphics window system)
-target_link_libraries(convergence PRIVATE sfml-system sfml-window sfml-graphics)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+target_link_libraries(convergence
+    PRIVATE sfml-system sfml-window sfml-graphics ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
