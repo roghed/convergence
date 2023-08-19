@@ -158,7 +158,7 @@ void MainWindow::recalculateGrid()
         label.setFont(labelsFont_);
         label.setCharacterSize(13);
         label.setString(getLabelString(coefficient, gridScale_));
-        label.setFillColor(sf::Color::Blue);
+        label.setFillColor(sf::Color::Green);
         label.setOrigin(0, 2 * label.getLocalBounds().height);
 
         sf::Vector2f pos;
@@ -178,7 +178,7 @@ void MainWindow::recalculateGrid()
         label.setFont(labelsFont_);
         label.setCharacterSize(13);
         label.setString(getLabelString(coefficient, gridScale_));
-        label.setFillColor(sf::Color::Blue);
+        label.setFillColor(sf::Color::Green);
         label.setOrigin(0, 2 * label.getLocalBounds().height);
 
         sf::Vector2f pos;

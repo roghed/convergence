@@ -14,8 +14,8 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
-const   vec3  AXIS_COLOR = vec3(1.0, 0.0, 0.0);
-const   vec3  GRID_COLOR = vec3(0.0, 1.0, 0.0);
+const   vec3  AXIS_COLOR = vec3(0.0, 1.0, 0.0);
+const   vec3  GRID_COLOR = vec3(0.0, 0.6, 0.0);
 
 uniform vec2  screenSize;
 uniform vec2  viewCenter;
