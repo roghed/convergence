@@ -47,8 +47,14 @@ This will build the binaries into the `build` directory, inside the source tree.
 
 ## ExprTk
 
-This program uses the [C++ Mathematical Expression Toolkit Library](https://github.com/ArashPartow/exprtk).
+This program uses the [C++ Mathematical Expression Toolkit Library](https://github.com/ArashPartow/exprtk):
 
+File: [exprtk.hpp](third_party/include/exprtk.hpp)
+
+Author: Arash Partow (1999-2023)
+URL: https://www.partow.net/programming/exprtk/index.html 
+
+Copyright notice:
 Free  use  of  the  C++  Mathematical  Expression  Toolkit  Library is
 permitted under the guidelines and in accordance with the most current
 version of the MIT License.
