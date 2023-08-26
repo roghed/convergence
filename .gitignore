@@ -76,3 +76,6 @@ CMakeLists.txt.user
 
 # Build directories
 build*/
+
+# Visual Studio files
+.vs/
