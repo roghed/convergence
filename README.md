@@ -21,18 +21,18 @@ In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Bla
 
 ## Function input window
 
-The secondary window is meant to input the function $f(x)$. Any function that can be compiled by the OpenGL compiler is a valid function, and one can use any function that is valid in GLSL. The input from this window is inserted directly into the shader code.
+The secondary window is meant to input the function $f(x)$. Any function that can be compiled by the OpenGL compiler is a valid function. The input from this window is inserted directly into the shader code.
 
 # How to build
 
 ## Prerequisites
 
-- C++17 compliant compiler (tested only on GCC, but any other compiler should work)
+- C++17 compliant compiler 
 - CMake (>= 3.24)
 - SFML library, along with System, Window and Graphics components (>= 2.5)
-- Boost library, along with system and filesystem components (>= 1.74)
+- Boost library; system, filesystem, math and dll components needed (>= 1.74)
 
-Make sure both libraries are located in a directory, in which CMake can find them.
+Make sure both libraries are located in a directory, where CMake can find them.
 
 ## Build instructions
 
