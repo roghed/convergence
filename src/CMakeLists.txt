@@ -50,4 +50,4 @@ endif ()
 find_package(SFML REQUIRED COMPONENTS graphics window system)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 target_link_libraries(convergence
-    PRIVATE sfml-system sfml-window sfml-graphics ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
+    PRIVATE sfml-system sfml-window sfml-graphics Boost::system Boost::filesystem)

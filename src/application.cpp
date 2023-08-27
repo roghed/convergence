@@ -18,6 +18,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include "main_window.hpp"
 #include "input_window.hpp"
 #include <exprtk.hpp>
+#include <boost/math/constants/constants.hpp>
 #include <cmath>
 #include <string>
 #include <filesystem>
@@ -108,7 +109,7 @@ float Application::calculateFunctionLimit(const std::string& expr_string)
     // df(x)/dx ~= (f(x + h) - f(x)) / h
     constexpr auto N_ITERATIONS = 100;
     constexpr auto H = 1e-6;
-    static const auto X0 = std::sqrt(2) + M_PI;
+    static const auto X0 = std::sqrt(2) + boost::math::constants::pi<double>();
     float xi = X0;
 
     for (int i = 0; i < N_ITERATIONS; ++i)
