@@ -24,7 +24,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
-    sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
+    sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer", sf::Style::Default, sf::ContextSettings(0, 0, 16)),
     viewCenter_(2.5, 0),
     viewSize_(10.0f, 10.0f * height / width),
     gridScale_(1.0),
