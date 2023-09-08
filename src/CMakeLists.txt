@@ -38,6 +38,12 @@ add_executable(convergence
     resource_locator.hpp resource_locator.cpp
     ${bin_dir_data_files})
 
+if (MSVC)
+    target_compile_options(convergence PRIVATE /W4)
+else()
+    target_compile_options(convergence PRIVATE -Wall -Wextra)
+endif()
+
 set_target_properties(convergence
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 

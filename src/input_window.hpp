@@ -35,7 +35,7 @@ public:
 
 private:
 
-    void processInputCharacter(char);
+    void processInputCharacter(sf::Uint32);
     void updateDisplayText();
     void updateDisplayCursor();
     void rerender();

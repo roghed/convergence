@@ -51,7 +51,7 @@ void InputWindow::processEvents()
         case sf::Event::KeyPressed:
             if (e.key.code == sf::Keyboard::Right)
             {
-                cursorPosition_ = std::min<int>(cursorPosition_ + 1, textString_.length());
+                cursorPosition_ = std::min<int>(cursorPosition_ + 1, (int)textString_.length());
                 updateDisplayCursor();
                 rerender();
             }
@@ -64,7 +64,7 @@ void InputWindow::processEvents()
             break;
         case sf::Event::Resized:
         {
-            auto s = sf::Vector2f(e.size.width, e.size.height);
+            auto s = sf::Vector2f((float)e.size.width, (float)e.size.height);
             auto v = sf::View(s * 0.5f, s);
             sf::RenderWindow::setView(v);
         }
@@ -83,13 +83,13 @@ void InputWindow::processEvents()
     }
 }
 
-void InputWindow::processInputCharacter(char c)
+void InputWindow::processInputCharacter(sf::Uint32 c)
 {
     static constexpr char BACKSPACE = '\b';
 
     if ((std::isgraph(c)) || c == ' ')
     {
-        textString_.insert(cursorPosition_++, 1, c);
+        textString_.insert(cursorPosition_++, 1, (char)c);
         updateDisplayText();
         updateDisplayCursor();
     }

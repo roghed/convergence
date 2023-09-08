@@ -108,9 +108,9 @@ float Application::calculateFunctionLimit(const std::string& expr_string)
     // Newton–Raphson method with numerical derivative approximation, i.e:
     // df(x)/dx ~= (f(x + h) - f(x)) / h
     constexpr auto N_ITERATIONS = 100;
-    constexpr auto H = 1e-6;
+    constexpr auto H = 1e-6f;
     static const auto X0 = std::sqrt(2) + boost::math::constants::pi<double>();
-    float xi = X0;
+    float xi = (float)X0;
 
     for (int i = 0; i < N_ITERATIONS; ++i)
     {

@@ -26,7 +26,7 @@ MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& 
     :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     viewCenter_(2.5, 0),
-    viewSize_(10.0, 10.0 * height / width),
+    viewSize_(10.0f, 10.0f * height / width),
     gridScale_(1.0),
     ptrIterateShader_(&iterate_shader),
     labelsFont_(font)
@@ -59,8 +59,8 @@ void MainWindow::processEvents()
         case sf::Event::MouseWheelScrolled:
             if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
             {
-                constexpr float ZOOM_FACTOR = 0.9;
-                constexpr float MOVE_FACTOR = 0.2;
+                constexpr float ZOOM_FACTOR = 0.9f;
+                constexpr float MOVE_FACTOR = 0.2f;
 
                 if (e.mouseWheelScroll.delta != 0)
                 {
@@ -79,7 +79,7 @@ void MainWindow::processEvents()
             break;
         case sf::Event::Resized:
             {
-                auto s = sf::Vector2f(e.size.width, e.size.height);
+                auto s = sf::Vector2f((float)e.size.width, (float)e.size.height);
                 auto v = sf::View(s * 0.5f, s);
 
                 {
@@ -145,7 +145,7 @@ void MainWindow::recalculateGrid()
 
     static const sf::Vector2i MARGIN = {5, 0}; // in pixels
 
-    gridScale_ = std::pow(10.0, std::ceil(std::log10(viewSize_.x * 5)) - 2);
+    gridScale_ = std::pow(10.0f, std::ceil(std::log10(viewSize_.x * 5)) - 2);
     sf::Vector2f view_bot_left = viewCenter_ - viewSize_ * 0.5f;
 
     xAxisLabels_.resize((int)(viewSize_.x / gridScale_) + 2);
@@ -153,7 +153,7 @@ void MainWindow::recalculateGrid()
     {
         auto& label = xAxisLabels_[i];
 
-        int coefficient = std::ceil(view_bot_left.x / gridScale_) + i - 1;
+        int coefficient = (int)std::ceil(view_bot_left.x / gridScale_) + i - 1;
 
         label.setFont(labelsFont_);
         label.setCharacterSize(13);
@@ -173,7 +173,7 @@ void MainWindow::recalculateGrid()
     {
         auto& label = yAxisLabels_[i];
 
-        int coefficient = std::ceil(view_bot_left.y / gridScale_) + i - 1;
+        int coefficient = (int)std::ceil(view_bot_left.y / gridScale_) + i - 1;
 
         label.setFont(labelsFont_);
         label.setCharacterSize(13);
@@ -256,9 +256,9 @@ sf::Vector2f MainWindow::toCalcSpaceCoordinates(sf::Vector2i window_coord) const
 {
     auto screen_size = sf::Vector2f(MainWindow::getSize());
     auto normalized_pixel_coord =
-        sf::Vector2f(window_coord.x / screen_size.x, 1.0 - window_coord.y / screen_size.y);
-    auto x = viewCenter_.x + (normalized_pixel_coord.x - 0.5) * viewSize_.x;
-    auto y = viewCenter_.y + (normalized_pixel_coord.y - 0.5) * viewSize_.y;
+        sf::Vector2f(window_coord.x / screen_size.x, 1.0f - window_coord.y / screen_size.y);
+    auto x = viewCenter_.x + (normalized_pixel_coord.x - 0.5f) * viewSize_.x;
+    auto y = viewCenter_.y + (normalized_pixel_coord.y - 0.5f) * viewSize_.y;
     return sf::Vector2f(x, y);
 }
 
@@ -294,7 +294,7 @@ std::string MainWindow::getLabelString(int coefficient, float grid_scale)
     }
     else
     {
-        int exponent = std::log10(grid_scale);
+        int exponent = (int)std::log10(grid_scale);
 
         if (std::abs(exponent) > 3)
         {
