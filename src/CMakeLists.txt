@@ -39,19 +39,18 @@ add_executable(convergence
     ${bin_dir_data_files})
 
 if (MSVC)
-    target_compile_options(convergence PRIVATE /W4)
+    target_compile_options(convergence PRIVATE /W4 /bigobj)
 else()
-    target_compile_options(convergence PRIVATE -Wall -Wextra)
+    target_compile_options(convergence PRIVATE -Wall -Wextra -Wa,-mbig-obj)
+endif()
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release" AND WIN32)
+    set_target_properties(convergence PROPERTIES WIN32_EXECUTABLE TRUE)
+    target_compile_definitions(convergence PRIVATE HAS_WINMAIN_ENTRY_POINT)
 endif()
 
 set_target_properties(convergence
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-
-if (MSVC)
-  target_compile_options(convergence PRIVATE /bigobj)
-else ()
-  target_compile_options(convergence PRIVATE -Wa,-mbig-obj)
-endif ()
 
 find_package(SFML REQUIRED COMPONENTS graphics window system)
 find_package(Boost REQUIRED COMPONENTS system filesystem)

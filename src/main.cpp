@@ -16,6 +16,17 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #include "application.hpp"
 
+#ifdef HAS_WINMAIN_ENTRY_POINT
+#include <Windows.h>
+
+int main();
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, PSTR, int)
+{
+    return main();
+}
+#endif
+
 int main()
 {
     Application app;
