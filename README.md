@@ -12,6 +12,8 @@ This program tries to visualize, which pairs of the above parameters: $\alpha$ a
 
 ## Main window
 
+![Example window output](doc/example_screen.jpg)
+
 In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Black areas represent values of the parameters for which the method *does not* converge, while white areas represent points for which the method *does* converge. Points which are close to the solution are rendered grey, and the brightness represents how close the value is to the actual root.
 
 ### Controls
