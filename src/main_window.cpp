@@ -25,10 +25,10 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer", sf::Style::Default, sf::ContextSettings(0, 0, 16)),
+    ptrIterateShader_(&iterate_shader),
     viewCenter_(2.5, 0),
     viewSize_(10.0f, 10.0f * height / width),
     gridScale_(1.0),
-    ptrIterateShader_(&iterate_shader),
     labelsFont_(font)
 {
     startRenderWorker();
@@ -149,7 +149,7 @@ void MainWindow::recalculateGrid()
     sf::Vector2f view_bot_left = viewCenter_ - viewSize_ * 0.5f;
 
     xAxisLabels_.resize((int)(viewSize_.x / gridScale_) + 2);
-    for (int i = 0; i < xAxisLabels_.size(); ++i)
+    for (auto i = 0u; i < xAxisLabels_.size(); ++i)
     {
         auto& label = xAxisLabels_[i];
 
@@ -169,7 +169,7 @@ void MainWindow::recalculateGrid()
     }
 
     yAxisLabels_.resize((int)(viewSize_.y / gridScale_) + 2);
-    for (int i = 0; i < yAxisLabels_.size(); ++i)
+    for (auto i = 0u; i < yAxisLabels_.size(); ++i)
     {
         auto& label = yAxisLabels_[i];
 

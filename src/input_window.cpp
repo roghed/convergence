@@ -24,8 +24,8 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 InputWindow::InputWindow(int width, int height, const sf::Font& font, std::string init_text) :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),
     textString_(init_text),
-    cursor_(sf::Vector2f(1, 15)),
-    displayFont_(font)
+    displayFont_(font),
+    cursor_(sf::Vector2f(1, 15))
 {
     displayText_.setFont(displayFont_);
     displayText_.setCharacterSize(15);
@@ -68,7 +68,9 @@ void InputWindow::processEvents()
             auto v = sf::View(s * 0.5f, s);
             sf::RenderWindow::setView(v);
         }
+            [[fallthrough]];
         case sf::Event::GainedFocus:
+            [[fallthrough]];
         case sf::Event::MouseEntered:
             rerender();
             break;

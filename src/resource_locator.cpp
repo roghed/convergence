@@ -28,8 +28,8 @@ using namespace std::filesystem;
 ResourceLocator::ResourceLocator(
     const std::string& application_directory_name,
     const std::string& resource_directory_name) :
-    resDirectory_(resource_directory_name),
-    appDirectory_(application_directory_name)
+    appDirectory_(application_directory_name),
+    resDirectory_(resource_directory_name)
 {}
 
 std::vector<std::string> split(std::string str, char delim)
