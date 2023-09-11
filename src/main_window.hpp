@@ -33,7 +33,6 @@ class MainWindow : protected sf::RenderWindow
 public:
 
     MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader);
-    ~MainWindow();
 
     void processEvents();
     using sf::RenderWindow::isOpen;
@@ -44,12 +43,6 @@ private:
 
     void recalculateGrid();
     void setShaderInputs();
-
-    // rendering functions
-    void requestRerender();
-    void startRenderWorker();
-    void killRenderWorker();
-    void renderBackgroundWorker();
     void rerender();
 
     sf::Vector2f toCalcSpaceCoordinates(sf::Vector2i window_coord) const;
@@ -68,10 +61,5 @@ private:
     std::vector<sf::Text>   xAxisLabels_;
     std::vector<sf::Text>   yAxisLabels_;
     bool                    doRerender_ = false;
-    std::condition_variable rerenderCv_;
-    std::mutex				rerenderCvMtx_;
-    std::mutex				renderResourcesMtx_;
-    std::atomic<bool>       killRenderWorkerFlag_ = false;
-    std::future<void>       renderWorkerFut_;
 };
 
