@@ -41,7 +41,7 @@ add_executable(convergence
 if (MSVC)
     target_compile_options(convergence PRIVATE /W4 /bigobj)
 else()
-    target_compile_options(convergence PRIVATE -Wall -Wextra -Wa,-mbig-obj)
+    target_compile_options(convergence PRIVATE -Wall -Wextra)
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release" AND WIN32)
