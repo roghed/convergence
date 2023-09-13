@@ -49,6 +49,7 @@ std::optional<sf::Vector2i> MouseDrag::getDragEvent(const sf::Event& event)
         {
            isLeftButtonPressed_ = false;
         }
+        break;
     default:
         break;
     }

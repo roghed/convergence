@@ -15,17 +15,20 @@ You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #include "application.hpp"
+#include "resource_locator.hpp"
 #include "main_window.hpp"
 #include "input_window.hpp"
 #include <exprtk.hpp>
 #include <boost/math/constants/constants.hpp>
-#include <cmath>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Shader.hpp>
 #include <string>
 #include <filesystem>
+#include <stdexcept>
+#include <chrono>
+#include <thread>
 #include <fstream>
 #include <regex>
-#include <thread>
-#include <chrono>
 #include <iostream>
 
 Application::Application()

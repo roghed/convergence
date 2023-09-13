@@ -15,11 +15,18 @@ You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #include "input_window.hpp"
+#include <SFML/Config.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <cctype>
-#include <utility>
+#include <string>
+#include <algorithm>
 
 InputWindow::InputWindow(int width, int height, const sf::Font& font, std::string init_text) :
     sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer"),

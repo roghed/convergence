@@ -17,16 +17,13 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #pragma once
 #include "mouse_drag.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Shader.hpp>
-#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Shader.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <vector>
 #include <string>
-#include <condition_variable>
-#include <mutex>
-#include <future>
+#include <vector>
 
 class MainWindow : protected sf::RenderWindow
 {

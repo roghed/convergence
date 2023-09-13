@@ -22,6 +22,8 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <cstdlib> // std::strtok
 #include <utility>
+#include <unordered_map>
+#include <stdexcept>
 
 using namespace std::filesystem;
 

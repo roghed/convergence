@@ -15,12 +15,25 @@ You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #include "main_window.hpp"
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window.hpp>
+#include "mouse_drag.hpp"
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Font.hpp>
-#include <cmath>
-#include <vector>
+#include <SFML/Graphics/Shader.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/View.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/WindowStyle.hpp>
+#include <SFML/Window/ContextSettings.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string>
+#include <vector>
+#include <cmath>
+#include <optional>
 
 MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
@@ -79,6 +92,7 @@ void MainWindow::processEvents()
                 break;
             }
         case sf::Event::GainedFocus:
+            [[fallthrough]];
         case sf::Event::MouseEntered:
             doRerender_ = true;
             break;

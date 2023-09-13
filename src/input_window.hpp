@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #pragma once
+#include <SFML/Config.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>

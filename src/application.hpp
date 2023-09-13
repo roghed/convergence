@@ -19,6 +19,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include "input_window.hpp"
 #include "resource_locator.hpp"
 #include <SFML/Graphics/Shader.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <string>
 #include <filesystem>
 
