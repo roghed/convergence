@@ -68,3 +68,8 @@ https://www.opensource.org/licenses/MIT
 This program uses the UbuntuMono-Regular font which is distributed under the UBUNTU FONT LICENSE Version 1.0.
 
 For more information see the [Ubuntu Font License.txt](https://github.com/roghed/convergence/blob/master/Ubuntu%20Font%20License.txt) file provided with the project.
+
+## FreeType
+
+Portions of this software are copyright © 2006 The FreeType Project (www.freetype.org). 
+All rights reserved.
