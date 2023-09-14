@@ -24,3 +24,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(third_party/include)
 
 add_subdirectory(src)
+install(TARGETS convergence
+    CONFIGURATIONS Release)
+
+# common CPack options
+set(CPACK_PACKAGE_NAME "Convergence")
+set(CPACK_PACKAGE_VENDOR "Jan Rogowski")
+set(CPACK_PACKAGE_DESCRIPTION "Program to visualize convergence of the fixed-point iteration method")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/roghed/convergence")
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
+set(CPACK_PACKAGE_VERSION_MAJOR 0)
+set(CPACK_PACKAGE_VERSION_MINOR 0)
+set(CPACK_PACKAGE_VERSION_PATCH 0)
+
+# DEB generator only CPack options
+if (NOT Apple AND NOT Win32)
+    include(GNUInstallDirs)
+
+    install(DIRECTORY data
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/convergence
+        CONFIGURATIONS Release)
+    set(CPACK_DEBIAN_PACKAGE_NAME "convergence")
+    set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jan Rogowski <janrogpl@gmail.com>")
+    set(CPACK_DEBIAN_PACKAGE_SECTION "math")
+    set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+
+    set(CPACK_GENERATOR DEB)
+endif()
+
+include(CPack)
