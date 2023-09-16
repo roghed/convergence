@@ -12,7 +12,25 @@ This program tries to visualize, which pairs of the above parameters: $\alpha$ a
 
 ## Main window
 
-![Example window output](doc/example_screen.jpg)
+### Example screens
+
+| ![example1.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example1.jpg) | 
+|:--:| 
+| $$f(x) = e^x - \frac{1}{x}$$ |
+
+| ![example2.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example2.jpg) |
+|:--:|
+| $$f(x) = \sin(e^x)$$ |
+
+| ![example3.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example3.jpg) |
+|:--:|
+| $$f(x) = x^2 \sin(x)$$ |
+
+| ![example4.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example4.jpg) |
+|:--:|
+| $$f(x) = x\cos(x) - x\sin(x)$$ |
+
+### Explanation
 
 In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Black areas represent values of the parameters for which the method *does not* converge, while white areas represent points for which the method *does* converge. Points which are close to the solution are rendered grey, and the brightness represents how close the value is to the actual root.
 
