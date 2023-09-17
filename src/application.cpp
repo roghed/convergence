@@ -22,6 +22,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <boost/math/constants/constants.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Shader.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <string>
 #include <filesystem>
 #include <stdexcept>
@@ -148,6 +149,10 @@ void Application::recompileShader(const std::string& f_expression)
     auto altered_shader_code = std::regex_replace(rawShaderCode_, REPLACE_REGEX, f_expression);
     if (!iterateShader_.loadFromMemory(altered_shader_code, sf::Shader::Fragment))
     {
-        std::clog << "Shader compilation failed" << std::endl;
+        inputWin_.setTextColor(sf::Color::Red);
+    }
+    else
+    {
+        inputWin_.setTextColor(sf::Color::White);
     }
 }

@@ -21,6 +21,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -39,6 +40,15 @@ InputWindow::InputWindow(int width, int height, const sf::Font& font, std::strin
     displayText_.setString(textString_);
     updateDisplayCursor();
     rerender();
+}
+
+void InputWindow::setTextColor(const sf::Color &color)
+{
+    if (displayText_.getFillColor() != color)
+    {
+        displayText_.setFillColor(color);
+        rerender();
+    }
 }
 
 void InputWindow::processEvents()

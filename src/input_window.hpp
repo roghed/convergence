@@ -20,6 +20,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <string>
 
 class InputWindow : public sf::RenderWindow
@@ -28,6 +29,7 @@ public:
 
     InputWindow(int width, int height, const sf::Font& font, std::string init_text = "");
 
+    void setTextColor(const sf::Color& color);
     void processEvents();
     using sf::RenderWindow::isOpen;
 
