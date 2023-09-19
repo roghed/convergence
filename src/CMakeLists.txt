@@ -36,6 +36,7 @@ add_executable(convergence
     input_window.hpp input_window.cpp
     mouse_drag.hpp mouse_drag.cpp
     resource_locator.hpp resource_locator.cpp
+    stream_capture.hpp stream_capture.cpp
     ${bin_dir_data_files})
 
 if (MSVC)

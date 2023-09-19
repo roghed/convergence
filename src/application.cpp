@@ -18,8 +18,10 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include "resource_locator.hpp"
 #include "main_window.hpp"
 #include "input_window.hpp"
+#include "stream_capture.hpp"
 #include <exprtk.hpp>
 #include <boost/math/constants/constants.hpp>
+#include <SFML/System/Err.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -30,7 +32,9 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <thread>
 #include <fstream>
 #include <regex>
+#include <sstream>
 #include <iostream>
+#include <iomanip>
 
 Application::Application()
     :
@@ -143,13 +147,25 @@ void Application::recompileShader(const std::string& f_expression)
 {
     static const std::string REPLACE_MARKER = "@\\[REPLACE ME\\]@";
     static const std::regex  REPLACE_REGEX(REPLACE_MARKER);
+    auto altered_shader_code = std::regex_replace(rawShaderCode_, REPLACE_REGEX, f_expression);
 
     // TODO: validate inputWin_.text()
+    StreamCapture stream_capture(sf::err());
+    stream_capture.start();
 
-    auto altered_shader_code = std::regex_replace(rawShaderCode_, REPLACE_REGEX, f_expression);
-    if (!iterateShader_.loadFromMemory(altered_shader_code, sf::Shader::Fragment))
+    bool is_compilation_successful =
+            iterateShader_.loadFromMemory(altered_shader_code,
+                                          sf::Shader::Fragment);
+
+    stream_capture.stop();
+
+    if (!is_compilation_successful)
     {
         inputWin_.setTextColor(sf::Color::Red);
+        std::clog << "Shader compilation was not successful" << std::endl;
+        std::clog << "Reason: " << std::endl;
+        std::clog << std::quoted(stream_capture.getString()) << std::endl;
+        std::clog << std::endl;
     }
     else
     {
