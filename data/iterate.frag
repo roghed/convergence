@@ -14,6 +14,8 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
+#version 460 core
+
 const   vec3  AXIS_COLOR = vec3(0.0, 1.0, 0.0);
 const   vec3  GRID_COLOR = vec3(0.0, 0.6, 0.0);
 
@@ -47,6 +49,8 @@ vec3 applyColorMap(float normalized_value)
     return vec3(clr, clr, clr);
 }
 
+out vec4 fragColor;
+
 void main()
 {
     vec2 normalized_frag_coord = gl_FragCoord.xy / screenSize;
@@ -59,13 +63,13 @@ void main()
     // axis rendering
     if (abs(position.x) <= pixel_size.x / 2.0 || abs(position.y) <= pixel_size.y / 2.0)
     {
-        gl_FragColor = vec4(AXIS_COLOR, 1.0);
+        fragColor = vec4(AXIS_COLOR, 1.0);
     }
     // grid rendering
     else if (abs(position.x - gridScale * nearest_grid_id.x) <= pixel_size.x / 2.0
           || abs(position.y - gridScale * nearest_grid_id.y) <= pixel_size.y / 2.0)
     {
-        gl_FragColor = vec4(GRID_COLOR, 1.0);
+        fragColor = vec4(GRID_COLOR, 1.0);
     }
     // function rendering
     else
@@ -73,6 +77,6 @@ void main()
         float result = iterate(position.x, position.y, 2048);
         float error_relative = abs(result - functionLimit) / functionLimit;
 
-        gl_FragColor = vec4(applyColorMap(error_relative), 1.0);
+        fragColor = vec4(applyColorMap(error_relative), 1.0);
     }
 }

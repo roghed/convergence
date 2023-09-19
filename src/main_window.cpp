@@ -37,7 +37,11 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
-    sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer", sf::Style::Default, sf::ContextSettings(0, 0, 16)),
+    sf::RenderWindow(
+        sf::VideoMode(width, height),
+        "Convergence visualizer",
+        sf::Style::Default,
+        sf::ContextSettings(0, 0, 16, 4, 6)),
     ptrIterateShader_(&iterate_shader),
     viewCenter_(2.5, 0),
     viewSize_(10.0f, 10.0f * height / width),
