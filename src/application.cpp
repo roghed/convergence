@@ -35,7 +35,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 Application::Application()
     :
     resLoc_("convergence", "data"),
-    rawShaderCode_(getFileContents(resLoc_.locate("iterate_frag.glsl"))),
+    rawShaderCode_(getFileContents(resLoc_.locate("iterate.frag"))),
     mainWin_(800, 600, font_, iterateShader_),
     inputWin_(300, 100, font_, "exp(x) - 1.0 / x")
 {
