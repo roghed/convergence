@@ -48,7 +48,7 @@ The secondary window is meant for inputting the function $f(x)$. Any function th
 ## Prerequisites
 
 - C++17 compliant compiler 
-- CMake (>= 3.24)
+- CMake (>= 3.22)
 - SFML library, along with System, Window and Graphics components (>= 2.5)
 - Boost library; system, filesystem, math and dll components needed (>= 1.74)
 
