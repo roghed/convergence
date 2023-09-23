@@ -34,6 +34,8 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <cmath>
 #include <optional>
+#include <sstream>
+#include <iomanip>
 
 MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
@@ -241,29 +243,11 @@ sf::Vector2i MainWindow::toWindowSpaceCoordinates(sf::Vector2f calc_space_coord)
 
 std::string MainWindow::getLabelString(int coefficient, float grid_scale)
 {
-    if (coefficient == 0)
-    {
-        return "0";
-    }
-    else if (grid_scale == 1)
-    {
-        return std::to_string(coefficient);
-    }
-    else
-    {
-        int exponent = (int)std::log10(grid_scale);
+    static std::ostringstream oss;
 
-        if (std::abs(exponent) > 3)
-        {
-            return std::to_string(coefficient) + "e" + std::to_string(exponent);
-        }
-        else if (exponent < 0)
-        {
-            return (coefficient < 0 ? "-0." : "0.") + std::string(-exponent - 1, '0') + std::to_string(std::abs(coefficient));
-        }
-        else
-        {
-            return std::to_string(coefficient) + std::string(exponent, '0');
-        }
-    }
+    oss.str("");
+    oss.precision(7);
+
+    oss << (coefficient * grid_scale);
+    return oss.str();
 }
