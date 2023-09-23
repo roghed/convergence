@@ -24,6 +24,9 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/BlendMode.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <SFML/Window/ContextSettings.hpp>
@@ -39,7 +42,11 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 MainWindow::MainWindow(int width, int height, const sf::Font& font, sf::Shader& iterate_shader)
     :
-    sf::RenderWindow(sf::VideoMode(width, height), "Convergence visualizer", sf::Style::Default, sf::ContextSettings(0, 0, 16)),
+    sf::RenderWindow(
+        sf::VideoMode(width, height),
+        "Convergence visualizer",
+        sf::Style::Default,
+        sf::ContextSettings(0, 0, 16, 4, 6)),
     ptrIterateShader_(&iterate_shader),
     viewCenter_(2.5, 0),
     viewSize_(10.0f, 10.0f * height / width),
@@ -163,7 +170,7 @@ void MainWindow::recalculateGrid()
         label.setFont(labelsFont_);
         label.setCharacterSize(13);
         label.setString(getLabelString(coefficient, gridScale_));
-        label.setFillColor(sf::Color::Green);
+        label.setFillColor(sf::Color::White);
         label.setOrigin(0, 2 * label.getLocalBounds().height);
 
         sf::Vector2f pos;
@@ -183,7 +190,7 @@ void MainWindow::recalculateGrid()
         label.setFont(labelsFont_);
         label.setCharacterSize(13);
         label.setString(getLabelString(coefficient, gridScale_));
-        label.setFillColor(sf::Color::Green);
+        label.setFillColor(sf::Color::White);
         label.setOrigin(0, 2 * label.getLocalBounds().height);
 
         sf::Vector2f pos;
@@ -196,17 +203,30 @@ void MainWindow::recalculateGrid()
 
 void MainWindow::rerender()
 {
-    sf::RenderWindow::draw(renderArea_, ptrIterateShader_);
+    sf::RenderWindow::clear(sf::Color::Black);
+
+    static const sf::BlendMode TRANSPARENCY_BLEND(sf::BlendMode::Factor::SrcAlpha,
+                                                  sf::BlendMode::Factor::One);
+
+    static const sf::BlendMode INVERT_COLOR_BLEND(sf::BlendMode::Factor::OneMinusDstColor,
+                                                  sf::BlendMode::Factor::OneMinusSrcColor);
+
+    static const sf::RenderStates LABELS_RT(TRANSPARENCY_BLEND);
+    static const sf::RenderStates ITERATE_SHADER_RT(INVERT_COLOR_BLEND,
+                                                    sf::Transform(), nullptr,
+                                                    ptrIterateShader_);
 
     for (const auto& label : xAxisLabels_)
     {
-        sf::RenderWindow::draw(label);
+        sf::RenderWindow::draw(label, LABELS_RT);
     }
 
     for (const auto& label : yAxisLabels_)
     {
-        sf::RenderWindow::draw(label);
+        sf::RenderWindow::draw(label, LABELS_RT);
     }
+
+    sf::RenderWindow::draw(renderArea_, ITERATE_SHADER_RT);
 
     sf::RenderWindow::display();
 }

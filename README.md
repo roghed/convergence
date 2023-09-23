@@ -32,16 +32,16 @@ This program tries to visualize, which pairs of the above parameters: $\alpha$ a
 
 ### Explanation
 
-In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Black areas represent values of the parameters for which the method *does not* converge, while white areas represent points for which the method *does* converge. Points which are close to the solution are rendered grey, and the brightness represents how close the value is to the actual root.
+In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Each pixel is a color-coded representation of the logarithmic relative error between the method's solution and the actual solution. Color values create a heat-map with black/blue pixels being furthest from the solution and white/purple being closest.
 
 ### Controls
 
-- zoom in/out with mouse wheel
+- zoom in/out by scrolling the mouse or using a touchpad
 - click and drag to move the view
 
 ## Function input window
 
-The secondary window is meant to input the function $f(x)$. Any function that can be compiled by the OpenGL compiler is a valid function. The input from this window is inserted directly into the shader code.
+The secondary window is meant for inputting the function $f(x)$. Any function that can be compiled by the GLSL compiler can be used - input from this window is inserted directly into the shader code.
 
 # How to build
 
