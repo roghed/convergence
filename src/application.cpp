@@ -23,6 +23,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include <string>
 #include <filesystem>
 #include <stdexcept>
@@ -43,6 +44,8 @@ Application::Application()
     {
         throw std::runtime_error("Font loading failed");
     }
+
+    loadIcons();
 
     updateShaderFunction();
 }
@@ -155,4 +158,17 @@ void Application::recompileShader(const std::string& f_expression)
     {
         inputWin_.setTextColor(sf::Color::White);
     }
+}
+
+void Application::loadIcons()
+{
+    sf::Image icon;
+    if (!icon.loadFromFile(resLoc_.locate("icon.jpg")))
+    {
+        throw std::runtime_error("Could not load icon from `icon.jpg`");
+    }
+
+    auto [w, h] = icon.getSize();
+    mainWin_.setIcon(w, h, icon.getPixelsPtr());
+    inputWin_.setIcon(w, h, icon.getPixelsPtr());
 }

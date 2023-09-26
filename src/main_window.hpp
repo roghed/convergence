@@ -35,6 +35,7 @@ public:
     using sf::RenderWindow::isOpen;
     void refresh();
     void setFunctionLimit(float value);
+    using sf::RenderWindow::setIcon;
 
 private:
 

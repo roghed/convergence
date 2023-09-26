@@ -37,6 +37,7 @@ private:
 
     void updateShaderFunction();
     void recompileShader(const std::string& f_expression);
+    void loadIcons();
 
     ResourceLocator resLoc_;
     std::string     rawShaderCode_;
