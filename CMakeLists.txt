@@ -16,7 +16,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.]]
 
 cmake_minimum_required(VERSION 3.22)
 
-project(convergence LANGUAGES CXX)
+project(convergence LANGUAGES CXX VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -33,9 +33,6 @@ set(CPACK_PACKAGE_VENDOR "Jan Rogowski")
 set(CPACK_PACKAGE_DESCRIPTION "Program to visualize convergence of the fixed-point iteration method")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/roghed/convergence")
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
-set(CPACK_PACKAGE_VERSION_MAJOR 0)
-set(CPACK_PACKAGE_VERSION_MINOR 0)
-set(CPACK_PACKAGE_VERSION_PATCH 0)
 
 # DEB generator only CPack options
 if (NOT Apple AND NOT Win32)
