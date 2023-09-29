@@ -63,6 +63,10 @@ cmake --build build
 ```
 This will build the binaries into the `build` directory, inside the source tree.
 
+## Downloading pre-built binaries
+
+Release packages with pre-built binaries can be found [here](https://github.com/roghed/convergence/releases).
+
 # Third party licenses
 
 ## ExprTk
