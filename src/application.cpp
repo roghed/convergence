@@ -163,7 +163,7 @@ void Application::recompileShader(const std::string& f_expression)
 void Application::loadIcons()
 {
     sf::Image icon;
-    if (!icon.loadFromFile(resLoc_.locate("icon.jpg")))
+    if (!icon.loadFromFile(resLoc_.locate("icon.jpg").string()))
     {
         throw std::runtime_error("Could not load icon from `icon.jpg`");
     }
