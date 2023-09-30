@@ -14,29 +14,19 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
-#include "application.hpp"
-#include "message_box.hpp"
+#pragma once
+#include <string>
 
-#ifdef HAS_WINMAIN_ENTRY_POINT
-#include <Windows.h>
-
-int main();
-
-int WINAPI WinMain(HINSTANCE, HINSTANCE, PSTR, int)
+class MessageBox
 {
-    return main();
-}
-#endif
+public:
 
-int main()
-{
-    try
+    enum Type
     {
-        Application app;
-        app.execute();
-    }
-    catch (const std::exception &e)
-    {
-        MessageBox(e.what(), MessageBox::Error);
-    }
-}
+        Info,
+        Warning,
+        Error
+    };
+
+    MessageBox(const std::string& message, Type type = Info);
+};

@@ -36,6 +36,7 @@ add_executable(convergence
     input_window.hpp input_window.cpp
     mouse_drag.hpp mouse_drag.cpp
     resource_locator.hpp resource_locator.cpp
+    message_box.hpp message_box.cpp
     ${bin_dir_data_files})
 
 if (MSVC)
@@ -51,6 +52,15 @@ endif()
 
 set_target_properties(convergence
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# link against GTKmm library on Linux
+if (NOT Apple AND NOT Win32)
+    find_package(PkgConfig)
+    pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
+    target_link_directories(convergence PUBLIC ${GTKMM_LIBRARY_DIRS})
+    target_include_directories(convergence PUBLIC ${GTKMM_INCLUDE_DIRS})
+    target_link_libraries(convergence PUBLIC ${GTKMM_LIBRARIES})
+endif()
 
 find_package(SFML REQUIRED COMPONENTS graphics window system)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
