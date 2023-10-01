@@ -27,6 +27,21 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 using namespace std::filesystem;
 
+namespace
+{
+
+std::string envVar(const std::string& env_var_name)
+{
+    const char* env_var_c_str = std::getenv(env_var_name.c_str());
+    if (env_var_c_str)
+    {
+        return env_var_c_str;
+    }
+    else return {};
+}
+
+} // anonymous
+
 ResourceLocator::ResourceLocator(
     const std::string& application_directory_name,
     const std::string& resource_directory_name) :
@@ -73,7 +88,7 @@ const std::filesystem::path& ResourceLocator::locate(const std::string& filename
         return cache_[filename];
     }
 
-    for (path p : split(std::string(std::getenv("XDG_DATA_DIRS")), ':'))
+    for (path p : split(std::string(envVar("XDG_DATA_DIRS")), ':'))
     {
         if (search(p.append(appDirectory_).append(resDirectory_).append(filename)))
         {
