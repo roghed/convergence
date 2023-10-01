@@ -19,6 +19,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 
 #ifdef HAS_WINMAIN_ENTRY_POINT
 #include <Windows.h>
+#undef MessageBox
 
 int main();
 
@@ -37,6 +38,6 @@ int main()
     }
     catch (const std::exception &e)
     {
-        MessageBox(e.what(), MessageBox::Error);
+        MessageBox b(e.what(), MessageBox::Error);
     }
 }

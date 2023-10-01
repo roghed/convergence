@@ -20,6 +20,7 @@ Convergence. If not, see <https://www.gnu.org/licenses/>.*/
 #include <gtkmm.h>
 #elif defined _WIN32
 #include <Windows.h>
+#undef MessageBox
 #endif
 
 namespace
@@ -28,10 +29,10 @@ namespace
 #if defined __linux__
 using native_msg_t = Gtk::MessageType;
 #elif defined _WIN32
-// todo: declare Windows message box type
+using native_msg_t = UINT;
 #endif
 
-native_msg_t nativeType(MessageBox::Type t)
+auto nativeType(MessageBox::Type t)
 {
     switch (t)
     {
@@ -45,7 +46,12 @@ native_msg_t nativeType(MessageBox::Type t)
         case MessageBox::Error:
             return Gtk::MessageType::MESSAGE_ERROR;
 #elif defined _WIN32
-        // todo
+        case MessageBox::Info:
+            return MB_ICONINFORMATION;
+        case MessageBox::Warning:
+            return MB_ICONWARNING;
+        case MessageBox::Error:
+            return MB_ICONERROR;
 #endif
     }
 }
@@ -59,6 +65,6 @@ MessageBox::MessageBox(const std::string& message, Type type)
     Gtk::MessageDialog box(message, false, nativeType(type));
     box.run();
 #elif defined _WIN32
-    // todo
+    MessageBoxA(nullptr, message.c_str(), nullptr, nativeType(type));
 #endif
 }
