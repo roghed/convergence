@@ -54,7 +54,7 @@ set_target_properties(convergence
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # link against GTKmm library on Linux
-if (NOT Apple AND NOT Win32)
+if (NOT Apple AND NOT WIN32)
     find_package(PkgConfig)
     pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
     target_link_directories(convergence PUBLIC ${GTKMM_LIBRARY_DIRS})

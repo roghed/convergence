@@ -35,7 +35,7 @@ set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/roghed/convergence")
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
 
 # DEB generator only CPack options
-if (NOT Apple AND NOT Win32)
+if (NOT Apple AND NOT WIN32)
     include(GNUInstallDirs)
 
     install(DIRECTORY data
