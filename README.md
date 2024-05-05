@@ -1,5 +1,4 @@
 # Description
-
 A simple C++ program which utilizes an OpenGL shader to visualize the convergence of the fixed-point iteration numerical method.
 
 ## Fixed-point iteration root-finding method
@@ -51,8 +50,10 @@ The secondary window is meant for inputting the function $f(x)$. Any function th
 - CMake (>= 3.22)
 - SFML library, along with System, Window and Graphics components (>= 2.5)
 - Boost library; system, filesystem, math and dll components needed (>= 1.74)
+- pkg-config (>= 0.29)
+- gtkmm (API version 3.0)
 
-Make sure both libraries are located in a directory, where CMake can find them.
+Make sure that all libraries are located at a directory, where CMake can find them.
 
 ## Build instructions
 
