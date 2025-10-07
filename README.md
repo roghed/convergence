@@ -3,18 +3,18 @@ A simple C++ program which utilizes an OpenGL shader to visualize the convergenc
 
 ## Fixed-point iteration root-finding method
 
-Given any function $f(x)$ one can prove that the recursive formula:
+Given any function $f(x)$, one can prove that the recursive formula:
 $$x_{n+1}=x_n + \alpha f(x_n)$$
-will converge for some values of the parameter $\alpha$ and initial values of $x_0$ on the roots of function $f(x)$.
+will converge for some values of the parameter $\alpha$ and initial values of $x_0$ towards the roots of function $f(x)$.
 
-This program tries to visualize, which pairs of the above parameters: $\alpha$ and $x_0$ give rise to the convergence on the solution.
+This program visualizes which pairs of the above parameters: $\alpha$ and $x_0$ give rise to the convergence to the solution.
 
 ## Main window
 
 ### Example screens
 
-| ![example1.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example1.jpg) | 
-|:--:| 
+| ![example1.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example1.jpg) |
+|:--:|
 | $$f(x) = e^x - \frac{1}{x}$$ |
 
 | ![example2.jpg](https://github.com/roghed/convergence/blob/master/doc/screens/example2.jpg) |
@@ -31,7 +31,7 @@ This program tries to visualize, which pairs of the above parameters: $\alpha$ a
 
 ### Explanation
 
-In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Each pixel is a color-coded representation of the logarithmic relative error between the method's solution and the actual solution. Color values create a heat-map with black/blue pixels being furthest from the solution and white/purple being closest.
+In the main window of the application a graph of $\alpha$ versus $x_0$ is shown. Each pixel is a color-coded representation of the logarithmic relative error between the computed result and the actual solution. Color values create a heat map with black or blue pixels being furthest from the solution and white or purple being closest.
 
 ### Controls
 
@@ -40,33 +40,29 @@ In the main window of the application a graph of $\alpha$ to $x_0$ is shown. Eac
 
 ## Function input window
 
-The secondary window is meant for inputting the function $f(x)$. Any function that can be compiled by the GLSL compiler can be used - input from this window is inserted directly into the shader code.
+The secondary window is meant for entering the function $f(x)$. Any function that the GLSL compiler can compile can be used; input from this window is inserted directly into the shader code.
 
 # How to build
 
 ## Prerequisites
 
-- C++17 compliant compiler 
+- C++17 compliant compiler
 - CMake (>= 3.22)
 - SFML library, along with System, Window and Graphics components (>= 2.5)
 - Boost library; system, filesystem, math and dll components needed (>= 1.74)
 - pkg-config (>= 0.29)
 - gtkmm (API version 3.0)
 
-Make sure that all libraries are located at a directory, where CMake can find them.
+Make sure that all libraries are located in a directory, where CMake can find them.
 
 ## Build instructions
 
-Obtain source code by downloading one of the release archives or by cloning directly from this repo, unpack, then run following commands from inside the directory:
 ```
+git clone https://github.com/roghed/convergence
+cd convergence
 cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
 cmake --build build
 ```
-This will build the binaries into the `build` directory, inside the source tree.
-
-## Downloading pre-built binaries
-
-Release packages with pre-built binaries can be found [here](https://github.com/roghed/convergence/releases).
 
 # Third party licenses
 
@@ -94,5 +90,5 @@ For more information see the [Ubuntu Font License.txt](https://github.com/roghed
 
 ## FreeType
 
-Portions of this software are copyright © 2006 The FreeType Project (www.freetype.org). 
+Portions of this software are copyright ï¿½ 2006 The FreeType Project (www.freetype.org).
 All rights reserved.
